@@ -1,1 +1,23 @@
-{"name":"udyog-mitra","main":"src/worker.js","compatibility_date":"2026-09-01","assets":{"directory":"./public","binding":"ASSETS"},"d1_databases":[{"binding":"DB","database_name":"udyog-mitra-db","database_id":"REPLACE_WITH_NEW_UDYOG_MITRA_D1_ID","migrations_dir":"db/migrations"}]}
+{
+  "name": "udyog-mitra",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "udyog-mitra-db",
+      "database_id": "REPLACE_WITH_NEW_UDYOG_MITRA_D1_ID",
+      "migrations_dir": "db/migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "RESUMES",
+      "bucket_name": "udyog-mitra-resumes"
+    }
+  ]
+}
