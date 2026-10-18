@@ -27,7 +27,7 @@ This application reuses SST Seva's patterns for user roles, permissions, session
 9. For CSV-imported accounts, issue private activation tokens from the admin dashboard; imported users set their own passwords.
 
 ## Important production gaps
-Cloudflare resources are not yet created, and deployment has not been performed. End-to-end browser, authorization and integration testing remain necessary. Add rate limiting, CSRF hardening, secure delivery of activation tokens, resume malware scanning, candidate consent withdrawal and retention policies, and complete application status management before inviting real candidates. Current CSV uploader handles simple unquoted CSV.
+Cloudflare resources are not yet created, and deployment has not been performed. End-to-end browser, authorization and integration testing remain necessary. Add rate limiting, CSRF hardening, secure delivery of activation tokens, resume malware scanning, candidate consent withdrawal and retention policies, and complete production-grade notifications and application workflow testing before inviting real candidates. The CSV uploader supports quoted fields and is limited to 100 users per batch.
 
 Do not store production secrets or personal resumes in this Git repository.
 
