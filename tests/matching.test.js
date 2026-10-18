@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {scoreMatch,rankedJobs} from '../src/matching.js';
+const candidate={skills:'Java SQL',desired_roles:'developer',qualification:'BSc',preferred_location:'Bengaluru',experience_years:2};
+test('matching rewards relevant skills and preferred location',()=>{const good={title:'Java Developer',skills:'Java SQL',location:'Bengaluru',min_experience:1,max_experience:3};const bad={title:'Retail cashier',skills:'Sales',location:'Delhi',min_experience:4};assert.ok(scoreMatch(good,candidate).score>scoreMatch(bad,candidate).score)});
+test('matching never discloses candidate contact details',()=>{const j={title:'Developer',skills:'Java',location:'Bengaluru',min_experience:0};assert.deepEqual(Object.keys(scoreMatch(j,{...candidate,mobile:'9999999999'})).sort(),['experience_match','location_match','matched_skills','score'].sort())});
+test('ranking prefers best candidate match',()=>{const jobs=[{id:'1',title:'Cashier',skills:'Cash',location:'Delhi',min_experience:0},{id:'2',title:'Java Developer',skills:'Java',location:'Bengaluru',min_experience:0}];assert.equal(rankedJobs(jobs,candidate)[0].id,'2')});
