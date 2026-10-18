@@ -36,3 +36,5 @@ wireForm('#mentorForm','/api/mentors');
 wireForm('#mentorshipForm','/api/mentorship-requests');
 $('#browseMentors').onclick=async()=>{try{const v=await api('/api/mentors');renderTextRows('#mentorResults',v.mentors,x=>x.full_name+' · '+x.areas+' · '+x.bio)}catch(e){notice.textContent=e.message}};
 $('#viewImpact').onclick=async()=>{try{const v=await api('/api/impact');const k=v.counts;$('#impactResults').textContent='Active seekers: '+k.seekers+' | Applications: '+k.applications+' | Interview stage or beyond: '+k.interviews_or_beyond+' | Reported hires: '+k.confirmed_hires+' | Open jobs: '+k.open_jobs}catch(e){notice.textContent=e.message}};
+
+$('#resumeGuide').onclick=()=>{$('#resumeGuideText').textContent='NAME | Mobile | Email | Location\nCareer objective (2 lines)\nEducation / qualifications\nRelevant skills\nExperience / internships / projects\nCertifications (if relevant)\nLanguages known\nReferences only if requested. Do not include Aadhaar, PAN or bank details.'};
