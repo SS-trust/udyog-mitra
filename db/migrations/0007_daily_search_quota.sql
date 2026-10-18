@@ -1,0 +1,1 @@
+CREATE TABLE daily_search_usage(user_id TEXT NOT NULL REFERENCES users(id), day_utc TEXT NOT NULL, search_count INTEGER NOT NULL DEFAULT 0 CHECK(search_count BETWEEN 0 AND 50), PRIMARY KEY(user_id,day_utc));
