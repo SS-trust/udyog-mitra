@@ -1,0 +1,1 @@
+CREATE TABLE candidate_resumes(candidate_id TEXT PRIMARY KEY REFERENCES candidates(id),r2_key TEXT NOT NULL UNIQUE,media_type TEXT NOT NULL,byte_size INTEGER NOT NULL,uploaded_by TEXT NOT NULL REFERENCES users(id),uploaded_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
