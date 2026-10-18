@@ -1,0 +1,18 @@
+name: UdyogMitra checks
+on:
+  push:
+  pull_request:
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check backend and web JavaScript syntax
+        run: |
+          for file in src/*.js public/*.js; do node --check "$file"; done
+      - name: Check package and Cloudflare configuration
+        run: |
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'));JSON.parse(require('fs').readFileSync('wrangler.jsonc','utf8'))"
