@@ -16,3 +16,6 @@ jobs:
       - name: Check package and Cloudflare configuration
         run: |
           node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'));JSON.parse(require('fs').readFileSync('wrangler.jsonc','utf8'))"
+
+      - name: Run matching unit tests
+        run: npm test
