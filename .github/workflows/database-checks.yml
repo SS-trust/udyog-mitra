@@ -1,0 +1,18 @@
+name: UdyogMitra D1 schema checks
+on:
+  push:
+    paths:
+      - 'db/migrations/**'
+      - 'tests/schema_integrity.py'
+      - '.github/workflows/database-checks.yml'
+  pull_request:
+jobs:
+  sqlite-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply every migration to fresh SQLite database
+        run: python tests/schema_integrity.py
