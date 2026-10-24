@@ -16,3 +16,8 @@ test('accounting synonym returns accountant rather than seven static jobs',()=>a
 test('unfiltered catalogue returns all available postings, newest first',()=>assert.deepEqual(searchAndRank(jobs,'').map(x=>x.id),['4','3','1','2']));
 test('unicode keyword tokenizer preserves Kannada search tokens',()=>assert.deepEqual(terms('ಕನ್ನಡ job'),['ಕನ್ನಡ','job']));
 test('does not match substring in unrelated long token',()=>assert.equal(rankJob(jobs[1],'ant').score,0));
+
+test('location filter excludes otherwise matching jobs in other cities',()=>assert.deepEqual(searchAndRank(jobs,'',100,{location:'Davanagere'}).map(x=>x.id),['3']));
+test('category filter respects exact posted category',()=>assert.deepEqual(searchAndRank([{...jobs[0],category:'it'},{...jobs[1],category:'accounting'}],'',100,{category:'accounting'}).map(x=>x.id),['2']));
+test('fresher filter excludes vacancies requiring past experience',()=>assert.deepEqual(searchAndRank([{...jobs[0],min_experience:2},{...jobs[1],min_experience:0}],'',100,{fresher:true}).map(x=>x.id),['2']));
+test('employment type filter respects full-time and internship jobs',()=>assert.deepEqual(searchAndRank([{...jobs[0],employment_type:'full_time'},{...jobs[1],employment_type:'internship'}],'',100,{type:'internship'}).map(x=>x.id),['2']));
