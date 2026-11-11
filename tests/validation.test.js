@@ -7,4 +7,4 @@ test('rejects missing title/company/location',()=>{for(const key of ['title','co
 test('rejects unknown source type',()=>assert.ok(validateJobInput({...valid,source_type:'scraped'})));
 test('rejects unknown category and employment type',()=>{assert.ok(validateJobInput({...valid,category:'unknown'}));assert.ok(validateJobInput({...valid,employment_type:'gig'}))});
 test('rejects negative or excessive experience',()=>{assert.ok(validateJobInput({...valid,min_experience:-1}));assert.ok(validateJobInput({...valid,min_experience:4,max_experience:2}));assert.ok(validateJobInput({...valid,max_experience:61}))});
-test('rejects malformed dates and oversized fields',()=>{assert.ok(validateJobInput({...valid,apply_by:'next week'}));assert.ok(validateJobInput({...valid,description:'x'.repeat(8001)}))});
+test('rejects malformed dates and oversized fields',()=>{assert.ok(validateJobInput({...valid,apply_by:'next week'}));assert.ok(validateJobInput({...valid,apply_by:'2027-02-30'}));assert.ok(validateJobInput({...valid,description:'x'.repeat(8001)}))});
