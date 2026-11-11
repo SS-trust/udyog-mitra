@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const html=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
+const js=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');
+const ids=[...html.matchAll(/\bid=["']([^"']+)["']/g)].map(x=>x[1]);
+test('all HTML IDs are unique',()=>{const duplicates=ids.filter((id,i)=>ids.indexOf(id)!==i);assert.deepEqual([...new Set(duplicates)],[])});
+test('every statically selected element exists in HTML',()=>{const refs=[...js.matchAll(/\$\(['"]#([A-Za-z][\w-]*)['"]\)/g)].map(x=>x[1]);const missing=[...new Set(refs)].filter(id=>!ids.includes(id));assert.deepEqual(missing,[])});
+test('all workspace tabs target an existing panel',()=>{const panels=new Set([...html.matchAll(/\bid=["']([^"']+)["'][^>]*data-panel/g)].map(x=>x[1]));const targets=[...html.matchAll(/data-tab=["']([^"']+)["']/g)].map(x=>x[1]);assert.ok(targets.length>=3);assert.deepEqual(targets.filter(x=>!panels.has(x)),[])});
+test('forms have unique IDs and are accessible by labels',()=>{const forms=[...html.matchAll(/<form\b[^>]*\bid=["']([^"']+)["']/g)].map(x=>x[1]);assert.ok(forms.length>=8);assert.equal(new Set(forms).size,forms.length);assert.ok(!/<input(?![^>]*\b(?:aria-label|id|name)=)[^>]*>/i.test(html))});
+test('sensitive member workspace panels start hidden until authenticated',()=>{for(const id of ['dashboard','employmentSupport']){const tag=html.match(new RegExp('<section[^>]*id="'+id+'"[^>]*>'));assert.ok(tag?.[0].includes('hidden'),id)}});
+test('external links open safely in a new tab',()=>{for(const m of html.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/g))assert.match(m[0],/rel=["'][^"']*noopener[^"']*["']/)});
