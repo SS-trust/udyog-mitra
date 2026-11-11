@@ -10,7 +10,7 @@
     {
       "binding": "DB",
       "database_name": "udyog-mitra-db",
-      "database_id": "REPLACE_WITH_NEW_UDYOG_MITRA_D1_ID",
+      "database_id": "d83a50cf-1048-4608-9567-97cba13bbd71",
       "migrations_dir": "db/migrations"
     }
   ],
