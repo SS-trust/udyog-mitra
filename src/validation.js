@@ -9,7 +9,7 @@ export function validateJobInput(d){
  const min=d?.min_experience==null||d.min_experience===''?0:Number(d.min_experience),max=d?.max_experience==null||d.max_experience===''?null:Number(d.max_experience);
  if(!Number.isInteger(min)||min<0||min>60)return 'Minimum experience must be between 0 and 60 years.';
  if(max!==null&&(!Number.isInteger(max)||max<min||max>60))return 'Maximum experience must be at least the minimum and no more than 60 years.';
- if(d?.apply_by&&!/^\d{4}-\d{2}-\d{2}$/.test(d.apply_by))return 'Apply-by date must be a valid calendar date.';
+ if(d?.apply_by){if(!/^\d{4}-\d{2}-\d{2}$/.test(d.apply_by))return 'Apply-by date must be a valid calendar date.';const [y,m,day]=d.apply_by.split('-').map(Number),date=new Date(Date.UTC(y,m-1,day));if(date.getUTCFullYear()!==y||date.getUTCMonth()!==m-1||date.getUTCDate()!==day)return 'Apply-by date must be a valid calendar date.';}
  if(String(d?.skills??'').length>500||String(d?.description??'').length>8000||String(d?.salary_text??'').length>120)return 'One or more job details exceed the allowed length.';
  return null;
 }
