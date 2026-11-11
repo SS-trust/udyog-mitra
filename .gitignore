@@ -4,3 +4,7 @@ node_modules/
 .env
 .env.*
 !*.example
+
+# Database exports and sensitive local test artifacts
+/backups/
+/.wrangler/
