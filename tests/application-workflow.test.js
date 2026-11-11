@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {APPLICATION_TRANSITIONS,canTransitionApplication} from '../src/application-workflow.js';
+test('poster can advance submitted application to acknowledged',()=>assert.equal(canTransitionApplication('submitted','acknowledged','poster'),true));
+test('submitter cannot mark own application hired',()=>assert.equal(canTransitionApplication('offered','hired','submitter'),false));
+test('only submitter can withdraw',()=>assert.equal(canTransitionApplication('interview','withdrawn','submitter'),true));
+test('poster cannot withdraw on behalf of submitter',()=>assert.equal(canTransitionApplication('interview','withdrawn','poster'),false));
+test('terminal hired/rejected/withdrawn states cannot be reopened',()=>{for(const s of ['hired','rejected','withdrawn'])assert.deepEqual(APPLICATION_TRANSITIONS[s],[])});
+test('invalid skipped transition is rejected',()=>assert.equal(canTransitionApplication('submitted','hired','poster'),false));
+test('unknown status is rejected',()=>assert.equal(canTransitionApplication('unknown','hired','poster'),false));
