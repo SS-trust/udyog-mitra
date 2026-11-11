@@ -2,20 +2,33 @@ name: UdyogMitra checks
 on:
   push:
   pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
-  syntax:
+  quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Check backend and web JavaScript syntax
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check backend and browser JavaScript syntax
         run: |
           for file in src/*.js public/*.js; do node --check "$file"; done
-      - name: Check package and Cloudflare configuration
+      - name: Validate package and Wrangler JSON
         run: |
           node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'));JSON.parse(require('fs').readFileSync('wrangler.jsonc','utf8'))"
-
-      - name: Run matching unit tests
+      - name: Run unit, negative and UI contract tests
         run: npm test
+      - name: Validate all D1 migrations on a fresh SQLite database
+        run: python tests/schema_integrity.py
+      - name: Check for accidental secrets in tracked source
+        run: |
+          if grep -RInE '(CF_API_TOKEN|FIRST_ADMIN_SETUP_KEY=.{8,}|BEGIN (RSA|OPENSSH) PRIVATE KEY)' src public wrangler.jsonc; then
+            echo "Potential secret found in source"
+            exit 1
+          fi
