@@ -10,3 +10,36 @@ label{display:grid;gap:7px;font-size:12px;font-weight:700;color:#40544e}input,se
 @media(max-width:850px){.hero{padding:34px}.hero-art{transform:scale(.8);transform-origin:right center;margin-right:0}.filter-fields{grid-template-columns:1fr 1fr}.columns{gap:15px}.workspace-panel{padding:22px}}
 @media(max-width:640px){.topbar{height:66px;padding:0 17px}.trust-label{display:none}.app-main{padding:18px 14px 42px}.hero{padding:28px 23px;min-height:unset}.hero-art{display:none}.hero h1{font-size:36px}.hero-points{gap:8px 14px}.auth-layout{grid-template-columns:1fr;gap:14px;margin-top:18px}.auth-card{padding:22px}.welcome-row h1{font-size:23px}.workspace-nav{margin-right:-14px;padding-right:14px}.tab-button{padding:10px 12px}.workspace-panel{padding:17px}.panel-heading h2{font-size:21px}.columns,.support-grid,.admin-grid{grid-template-columns:1fr}.search-fields,.filter-fields,.form-grid{grid-template-columns:1fr}.span-two{grid-column:auto}.form-actions{align-items:stretch;flex-wrap:wrap}.workspace-panel .columns>div>form{padding:14px}.welcome-mark{width:44px;height:44px}.workspace-panel hr{margin-top:20px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Landing/auth alignment and accessibility refinements */
+[hidden]{display:none!important}
+body{min-height:100vh}
+.topbar{width:100%;min-height:72px}
+.brand{gap:12px}
+.brand strong{font-size:18px}
+.brand small{font-size:9px}
+.app-main{width:min(100%,1236px);padding-top:30px}
+.hero{min-height:290px;gap:32px}
+.hero-copy{flex:1;min-width:0}
+.hero-copy h1{max-width:650px}
+.hero-copy p{max-width:540px}
+.hero-art{margin-right:10px}
+.notice{max-width:940px;margin:18px auto 0}
+.auth-layout{align-items:start}
+.auth-card{min-width:0}
+.auth-card form{gap:16px}
+.auth-card button{width:100%}
+.auth-card h2{margin-top:8px}
+.auth-secondary{background:linear-gradient(160deg,#fff,#f7faf8)}
+.auth-secondary>p{color:var(--muted);font-size:13px;line-height:1.6}
+.auth-secondary form{margin-top:18px}
+.auth-secondary .activation-details button{width:auto}
+.auth-card input{min-height:46px}
+.workspace{margin-top:20px}
+.workspace-panel{min-width:0}
+#adminPanel .job-card{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#adminPanel #pendingList:empty:after{content:'No pending membership requests are waiting for review.';display:block;color:var(--muted);font-size:13px;padding:12px 2px}
+footer{max-width:1180px;margin:0 auto 20px;padding:22px 28px}
+@media(max-width:850px){.app-main{padding-top:22px}.hero{gap:12px}.hero-art{width:190px;transform:scale(.85);margin-right:-12px}}
+@media(max-width:640px){.app-main{padding-top:16px}.hero{gap:0}.hero-copy h1{font-size:36px}.hero-points{font-size:10px}.notice{margin:14px 0}.auth-layout{max-width:none}.topbar{min-height:64px}.brand small{letter-spacing:.1em}footer{padding:20px 14px}}
