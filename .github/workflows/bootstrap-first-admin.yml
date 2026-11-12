@@ -46,7 +46,7 @@ jobs:
           const mobile = process.env.ADMIN_MOBILE?.trim() || '';
           const password = process.env.ADMIN_PASSWORD || '';
           const setupKey = process.env.FIRST_ADMIN_SETUP_KEY || '';
-          if (!name || !/^\\d{10}$/.test(mobile) || password.length < 16 || !setupKey) {
+          if (!name || !/^\d{10}$/.test(mobile) || password.length < 16 || !setupKey) {
             console.error('Invalid inputs: name, 10-digit mobile, setup key and admin password (16+ chars) are required.');
             process.exit(1);
           }
