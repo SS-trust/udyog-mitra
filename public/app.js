@@ -14,7 +14,7 @@ async function refreshApplications(){const r=await api('/api/applications'),list
 $('#myApplications').onclick=()=>refreshApplications().catch(e=>notice.textContent=e.message);
 $('#bulkPreview').onclick=async()=>{try{const file=$('#bulkFile').files?.[0];if(!file)throw Error('Choose a CSV file');bulkRows=parseCsv(await file.text());const r=await api('/api/admin/bulk-users/preview',{rows:bulkRows});$('#bulkResult').textContent=JSON.stringify(r,null,2);$('#bulkCommit').disabled=!r.valid}catch(e){$('#bulkCommit').disabled=true;notice.textContent=e.message}};
 $('#bulkCommit').onclick=async()=>{if(!confirm('Create '+bulkRows.length+' independent UdyogMitra member accounts?'))return;try{const r=await api('/api/admin/bulk-users/commit',{rows:bulkRows});$('#bulkResult').textContent=JSON.stringify(r,null,2);$('#bulkCommit').disabled=true}catch(e){notice.textContent=e.message}};
-const previousSession=session;session=async(showFailure=false)=>{const ok=await previousSession(showFailure);$('#employmentSupport').hidden=$('#dashboard').hidden;if(ok){await Promise.allSettled([refreshJobs(),refreshCandidates()])}return ok};
+const previousSession=session;session=async(showFailure=false)=>{const ok=await previousSession(showFailure);if(ok){await Promise.allSettled([refreshJobs(),refreshCandidates()])}return ok};
 
 
 action('#activateForm',d=>api('/api/activate',d));
