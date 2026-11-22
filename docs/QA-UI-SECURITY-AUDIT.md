@@ -24,7 +24,7 @@ Repository: SS-trust/udyog-mitra
 The public page presents UdyogMitra as a closed community network. Sign-in and registration are separate. Registration creates a pending request and login rejects unapproved accounts. There is no self-service password reset; do not expose one until verified email/SMS delivery and token lifecycle controls exist. Activation tokens are admin-issued and must be delivered privately.
 
 ### Member workspace and navigation
-Authenticated panels remain hidden until the session endpoint confirms the user. Server-side RBAC is authoritative; hiding controls in the browser is not a security boundary. Initial data loading uses Promise.allSettled, so an individual data panel can fail without breaking login, but the current UX can conceal that failure. Add per-panel loading, error and empty states.
+Authenticated panels remain hidden until the session endpoint confirms the user. Server-side RBAC is authoritative; hiding controls in the browser is not a security boundary. Initial data loading uses Promise.allSettled, so an individual data panel can fail without breaking login; failures are surfaced in the shared status region. Job, candidate and career-support actions also expose loading and empty states. A more detailed panel-level retry experience remains desirable.
 
 ### Job search and posting
 Search is limited to internal UdyogMitra postings. A server-side limit of 50 keyword searches per user per UTC day is enforced. Job fields are validated server-side. Search loading feedback and filter reset are implemented. Remaining UX work: make the quota-exhausted state more prominent and ensure incidental data refreshes do not count as deliberate searches.
@@ -36,7 +36,7 @@ Candidate creation requires a consent checkbox. Candidate profile editing and pr
 Resume storage uses a private R2 bucket. Uploads are limited to 2 MB and PDF/DOCX MIME types with basic file-signature checks. Job matching currently uses profile fields; automatic PDF/DOCX text extraction from uploaded resumes is not implemented. Retrieval is authenticated and restricted to the creator or a job poster with an application for that candidate. PRODUCTION BLOCKER: MIME/signature checks are not malware scanning or document sanitization. Add quarantine and malware scanning before accepting real member resumes.
 
 ### Career support and mentoring
-Candidate discovery exposes opted-in anonymized attributes rather than names/contact details. Match scores are described as indicative. Mentorship actions are permission-checked and constrained by ownership/status. Add per-panel loading, empty and error states.
+Candidate discovery exposes opted-in anonymized attributes rather than names/contact details. Match scores are described as indicative. Mentorship actions are permission-checked and constrained by ownership/status. Career-support actions now show loading/error feedback and impact metrics use responsive summary cards.
 
 ### Administration
 Membership approvals are permission-gated on the server. Bulk import has preview/commit and a 100-row limit. Activation tokens are random, hashed at rest and time-limited. Suspension revokes sessions and protects privileged accounts from the ordinary suspension route. The member directory now supports server-side search and pagination with member IDs. Bulk preview displays row-level validation and checks duplicate/existing mobile and email values.
