@@ -30,3 +30,5 @@ test('admin directory exposes member IDs for account operations',()=>{assert.mat
 test('password recovery is clearly described as administrator-issued token flow',()=>{assert.match(html,/password-reset token/);assert.match(html,/activation or password-reset token/)});
 
 test('job owner editing uses PATCH and supports cancelling edit mode',()=>{assert.match(js,/Edit opening/);assert.match(js,/dataset\.editId/);assert.match(js,/api\(editId\?path/);assert.match(html,/id="cancelJobEdit"/)});
+
+test('candidate directory supports owner profile editing and cancel',()=>{assert.match(html,/id="candidateList"/);assert.match(html,/id="cancelCandidateEdit"/);assert.match(js,/Edit profile/);assert.match(js,/candidate\.consent_withdrawn_at/)});
