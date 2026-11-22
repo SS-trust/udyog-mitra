@@ -12,7 +12,9 @@ Repository: SS-trust/udyog-mitra
 - Added atomic hashed-IP throttling for registration, login, activation, first-admin setup and resume uploads.
 - Authenticated state-changing requests now require an exact same-origin Origin header; cross-site Fetch Metadata requests are rejected.
 - Candidate consent now records a version and timestamp. A withdrawal action anonymizes profile data, deletes the resume object and preserves application history without identifying profile details.
-- Replaced raw JSON member listing with server-side searchable, paginated administration table.
+- Replaced raw JSON member listing with server-side searchable, paginated administration table, including member IDs for activation/role operations.
+- Bulk member preview now renders row-level validation feedback and checks duplicate/existing mobile numbers and email addresses before commit.
+- Clarified the administrator-issued activation/password-reset token flow in the public UI.
 - Corrected application status frontend requests to use PATCH, matching the backend route.
 
 ## Page-by-page review
