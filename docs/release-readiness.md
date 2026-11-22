@@ -10,7 +10,7 @@
 - Cohesive responsive styling and workspace tabs separating jobs, candidates/referrals, career support and administration.
 - Administration navigation is hidden unless server-computed admin/approver permissions allow it; APIs remain authoritative.
 - Server-side feature checks added to job/candidate/application and employment-support routes.
-- Application lifecycle transition rules reject skipped/invalid transitions and terminal-state reopening.
+- Application lifecycle transition rules reject skipped/invalid transitions and terminal-state reopening. Job and candidate owners can edit their own records with server-side validation and audit events.
 - UI contract tests check duplicate IDs, missing JavaScript selectors, tab targets, form IDs, hidden authenticated panels and safe external links.
 - UAT/negative test catalogue, architecture, deployment, schema, maintenance and KT documentation added.
 
@@ -25,7 +25,7 @@
 
 ## Blocking items before production
 - Add malware scanning or a documented quarantine/manual-review gate before resume downloads, plus a hard R2 storage quota.
-- Approve privacy notice, candidate consent withdrawal, data deletion, resume retention and breach response.
+- Approve privacy notice, candidate retention/deletion schedule, resume retention and breach response. Consent withdrawal anonymization and removal of referral/mentoring notes are implemented.
 - Administrator-issued activation/password-reset tokens are implemented, but verified private delivery and self-service recovery are not. Consider MFA for administrators.
 - Per-IP limits now cover registration, login, activation, bootstrap, resume uploads and admin mutations; authenticated mutations require same-origin Origin. Add device-aware controls and complete staging CSRF verification.
 - Add operational alerts, D1/R2 backup/restore drills and incident owner rota.
