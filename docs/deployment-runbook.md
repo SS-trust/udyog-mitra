@@ -16,7 +16,7 @@ flowchart TB
 ```
 
 ## Preconditions
-- Use the same Cloudflare account if desired, but create a **new Worker**, a **new D1 database**, and a **new private R2 bucket**.
+- UdyogMitra staging resources are already provisioned separately from SST Seva: Worker `udyog-mitra-staging`, D1 `udyog-mitra-db`, and private R2 bucket `udyog-mitra-resumes`.
 - Do not reuse SST Seva's database, bucket, authentication cookie or Worker.
 - Keep R2 public access disabled.
 - Configure a separate hostname (for example, a chosen UdyogMitra subdomain) only after DNS and domain ownership are confirmed.
@@ -29,7 +29,7 @@ npm install
 npx wrangler d1 create udyog-mitra-db
 npx wrangler r2 bucket create udyog-mitra-resumes
 ```
-Copy the newly created D1 database ID into `wrangler.jsonc` replacing `REPLACE_WITH_NEW_UDYOG_MITRA_D1_ID`. Do not paste Cloudflare API tokens into GitHub or chat. Verify the R2 bucket has no public domain enabled.
+The staging D1 binding is configured in `wrangler.jsonc` with the UdyogMitra database ID. Do not paste Cloudflare API tokens into GitHub or chat. Verify the R2 bucket remains private with public access disabled.
 
 ## Local validation
 ```powershell
@@ -63,4 +63,4 @@ Use `scripts/migrate-d1.ps1`. It defaults to local. Remote mode requires an expl
 - Record incident time, release SHA, migration number, impact and recovery steps.
 
 ## Production go/no-go
-Production requires signed-off UAT, security review, resume malware scanning or a documented safe alternative, retention/consent policy, backup/restore drill, rate-limit review, PBKDF2 CPU benchmark, monitoring and explicit business approval. This repository has not been deployed by this documentation change.
+Production requires signed-off UAT, security review, resume malware scanning or a documented safe alternative, retention/consent policy, backup/restore drill, rate-limit review, PBKDF2 CPU benchmark, monitoring and explicit business approval. The staging Worker has previously been deployed and the first superadmin successfully bootstrapped. The latest changes in main still require a fresh staging deployment and full UAT. Production deployment has not been approved.
