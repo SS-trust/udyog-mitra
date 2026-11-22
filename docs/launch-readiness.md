@@ -1,4 +1,4 @@
-# UdyogMitra — launch readiness (2026-10-20)
+# UdyogMitra — launch readiness (updated 2026-11-22)
 
 ## Implemented in GitHub, independent from SST Seva
 - Approved-member-only account login, pending registration, approvals, role administration, audit and suspensions
@@ -18,7 +18,7 @@
 - Apply D1 migrations; benchmark PBKDF2 on Cloudflare Free Workers CPU limits, and verify free R2 billing/storage hard limits.
 - Full authenticated integration and security tests: login, roles/approvals, session expiry, concurrency, search quota, CSRF handling, admin bootstrap and token redemption.
 - Add server-side enforcement of R2 object quota, anti-malware scanning before anyone downloads an uploaded resume, candidate consent deletion/withdrawal policy and retention schedule.
-- Set up secure off-platform delivery of activation invitations; no public plaintext token logs or exports.
+- Activation/reset tokens are administrator-issued, time-limited and hashed at rest; secure private delivery remains an operational manual step until a verified delivery provider is approved.
 - Add monitoring and complete browser/mobile layout QA (Kannada translations are not implemented end to end).
 - Member-reporting and notification systems are basic; employment outcome counts are member-reported.
 
@@ -26,4 +26,4 @@
 - Do **not** deploy UdyogMitra using SST Seva D1, R2 or login.
 - No paid AI APIs, SMS or analytics services are included.
 - Treat GitHub code and tests as a development milestone, **not proof of readiness to collect real resumes**.
-- Once Cloudflare resources are created, use staging, run all migration and end-to-end tests, complete release blockers, then seek explicit production approval.
+- Staging resources exist and the first superadmin has logged in. Deploy the current main branch, complete all migration and end-to-end tests, close release blockers, then seek explicit production approval.
