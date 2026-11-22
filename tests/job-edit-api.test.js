@@ -2,12 +2,35 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {jobsApi} from '../src/jobs.js';
 
-function fakeDb(owner='member-1'){
+function fakeDb(owner='member-1') {
  const calls=[];
- return {calls,prepare(sql){return{sql,bind(...args){return{sql,args,async first(){if(sql.includes('role_permissions'))return{ok:1};if(sql.startsWith('SELECT poster_id FROM jobs'))return{poster_id:owner};return null},async run(){calls.push({sql,args});return{meta:{changes:1}}}}}}};
+ const db={
+  calls,
+  prepare(sql){
+   return {
+    sql,
+    bind(...args){
+     return {
+      sql,args,
+      async first(){
+       if(sql.includes('role_permissions'))return{ok:1};
+       if(sql.startsWith('SELECT poster_id FROM jobs'))return{poster_id:owner};
+       return null;
+      },
+      async run(){calls.push({sql,args});return{meta:{changes:1}}}
+     };
+    }
+   };
+  }
+ };
+ return db;
 }
 const job={title:'Engineer',company:'Community Co',location:'Bengaluru',description:'Role details',skills:'JavaScript',employment_type:'full_time',min_experience:1,max_experience:3,salary_text:'Competitive',source_type:'referral',apply_by:'2026-12-15',category:'it'};
-async function patch(db,user,payload=job){const url=new URL('https://example.test/api/jobs/job-1');return jobsApi(new Request(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}),db,user,url)}
+async function patch(db,user,payload=job){
+ const url=new URL('https://example.test/api/jobs/job-1');
+ const req=new Request(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+ return jobsApi(req,db,user,url);
+}
 
 test('job owner can edit an opening and the change is audited',async()=>{
  const db=fakeDb();const response=await patch(db,{id:'member-1'});
