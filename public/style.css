@@ -134,3 +134,5 @@ button:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:640px){.member-table{font-size:10px}.member-table th,.member-table td{padding:8px 5px}.search-actions button,.candidate-actions button{flex:1}}
 
 .form-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.form-actions button{width:auto}
+
+.impact-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:12px 0}.impact-card{display:flex;flex-direction:column;gap:7px;padding:15px;border:1px solid #e1ebe4;border-radius:11px;background:linear-gradient(145deg,#fff,#f6faf7)}.impact-card strong{font:800 24px Manrope,sans-serif;color:#176b55;letter-spacing:-.05em}.impact-card span{font-size:10px;line-height:1.4;color:#687a72}.impact-note{font-size:11px;color:#718178}@media(max-width:850px){.impact-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:520px){.impact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.impact-card{padding:12px}.impact-card strong{font-size:21px}}
