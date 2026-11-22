@@ -21,4 +21,7 @@ for role in ["member","approver","admin"]:
     assert db.execute("SELECT 1 FROM app_roles WHERE code=?",(role,)).fetchone(),role
 for feature in ["jobs","applications","approvals","users","roles"]:
     assert db.execute("SELECT 1 FROM app_features WHERE code=?",(feature,)).fetchone(),feature
-assert "consent_version" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}\nassert "consented_at" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}\nassert "consent_withdrawn_at" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}\nprint(f"PASS: {len(files)} independent migrations; {len(required)} critical tables; roles & permissions seeded")
+assert "consent_version" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}
+assert "consented_at" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}
+assert "consent_withdrawn_at" in {r[1] for r in db.execute("PRAGMA table_info(candidates)")}
+print(f"PASS: {len(files)} independent migrations; {len(required)} critical tables; roles & permissions seeded")
