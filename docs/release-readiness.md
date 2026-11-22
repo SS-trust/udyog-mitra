@@ -24,10 +24,10 @@
 - Agree on synthetic UAT test-data cleanup and evidence retention.
 
 ## Blocking items before production
-- Add malware scanning or a documented quarantine/manual-review gate before resume downloads.
+- Add malware scanning or a documented quarantine/manual-review gate before resume downloads, plus a hard R2 storage quota.
 - Approve privacy notice, candidate consent withdrawal, data deletion, resume retention and breach response.
-- Add password reset and a secure activation invitation delivery process; consider MFA for administrators.
-- Add robust IP/device-aware rate limiting and CSRF defense review.
+- Administrator-issued activation/password-reset tokens are implemented, but verified private delivery and self-service recovery are not. Consider MFA for administrators.
+- Per-IP limits now cover registration, login, activation, bootstrap, resume uploads and admin mutations; authenticated mutations require same-origin Origin. Add device-aware controls and complete staging CSRF verification.
 - Add operational alerts, D1/R2 backup/restore drills and incident owner rota.
 - Configure production hostname, secrets and resource IDs only after staging approval.
 - Obtain product owner, security owner and UAT sign-off.
