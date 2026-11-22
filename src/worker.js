@@ -21,7 +21,11 @@ const rateRules=[
  ['/api/register','POST','registration',5,3600],
  ['/api/login','POST','login-ip',30,900],
  ['/api/activate','POST','activation',10,3600],
- ['/api/setup/first-admin','POST','first-admin-setup',5,3600]
+ ['/api/setup/first-admin','POST','first-admin-setup',5,3600],
+ ['/api/jobs','POST','job-create',20,3600],
+ ['/api/candidates','POST','candidate-create',20,3600],
+ ['/api/applications','POST','application-submit',30,3600],
+ ['/api/mentorship-requests','POST','mentorship-create',10,3600]
 ];
 let rule=rateRules.find(x=>x[0]===url.pathname&&x[1]===req.method);
 if(!rule&&req.method==='POST'&&/^\/api\/candidates\/[^/]+\/resume$/.test(url.pathname))rule=['resume-upload','POST','resume-upload',8,3600];
