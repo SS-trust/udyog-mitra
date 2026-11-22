@@ -10,3 +10,8 @@ test('authenticated mutations require a same-origin Origin header',()=>{
  assert.match(worker,/cookieSession&&origin!==url\.origin/);
  assert.match(worker,/Sec-Fetch-Site.*cross-site/);
 });
+
+test('request payload sizes are bounded before JSON or multipart parsing',()=>{
+ assert.match(worker,/length>3\*1024\*1024/);
+ assert.match(worker,/length>1024\*1024/);
+});
