@@ -16,6 +16,11 @@ if(!['GET','HEAD','OPTIONS'].includes(req.method)){
  if(origin&&origin!==url.origin)return fail('Cross-origin mutation blocked',403);
  if(req.headers.get('Sec-Fetch-Site')==='cross-site')return fail('Cross-site request blocked',403);
 }
+if(['POST','PATCH'].includes(req.method)){
+ const length=Number(req.headers.get('Content-Length')||0);
+ if(/^\/api\/candidates\/[^/]+\/resume$/.test(url.pathname)&&length>3*1024*1024)return fail('Resume upload request exceeds the 3MB request limit',413);
+ if(req.headers.get('Content-Type')?.includes('application/json')&&length>1024*1024)return fail('Request body exceeds the 1MB limit',413);
+}
 const ip=req.headers.get('CF-Connecting-IP')||'unknown';
 const rateRules=[
  ['/api/register','POST','registration',5,3600],
