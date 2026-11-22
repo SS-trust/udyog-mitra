@@ -40,7 +40,7 @@ test('candidate consent withdrawal anonymizes the profile and deletes its privat
  assert.equal(deleted,'private-key');
  assert.ok(db.statements.some(x=>x.sql.includes("full_name='Withdrawn candidate'")&&x.sql.includes('consent_withdrawn_at')));
  assert.ok(db.statements.some(x=>x.sql.includes('DELETE FROM candidate_resumes')));
- assert.ok(db.statements.some(x=>x.sql.includes('candidate.consent.withdrawn')));
+ assert.ok(db.statements.some(x=>x.args.includes('candidate.consent.withdrawn')));
 });
 
 test('candidate consent withdrawal cannot be performed by a different member',async()=>{
