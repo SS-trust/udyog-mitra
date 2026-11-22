@@ -23,7 +23,7 @@ test('member directory supports server-side search and pagination',()=>{assert.m
 test('approval-only users do not see administrator-only cards',()=>{assert.match(js,/card\.hidden=card\.classList\.contains\('admin-approvals'\)/)});
 
 test('bulk onboarding shows a validated table and explicit import progress',()=>{assert.match(js,/function renderBulkPreview/);assert.match(js,/CSV row/);assert.match(js,/Validating…/);assert.match(js,/Importing…/)});
-test('member workspace exposes failed panel loads and candidate empty states',()=>{assert.match(js,/Job openings could not be loaded/);assert.match(js,/No candidates yet/)});
+test('member workspace exposes failed panel loads and candidate empty states',()=>{assert.match(js,/Job openings could not be loaded/);assert.match(js,/No active candidates/)});
 
 test('bulk preview and commit use structured feedback rather than raw JSON',()=>{assert.match(js,/renderBulkPreview/);assert.match(js,/CSV validation passed/);assert.match(js,/member accounts created/);assert.doesNotMatch(js,/bulkResult'\)\.textContent=JSON\.stringify/)});
 test('admin directory exposes member IDs for account operations',()=>{assert.match(js,/Member ID/);assert.match(js,/u\.id,u\.full_name/)});
