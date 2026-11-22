@@ -27,7 +27,7 @@
 - Add malware scanning or a documented quarantine/manual-review gate before resume downloads, plus a hard R2 storage quota.
 - Approve privacy notice, candidate retention/deletion schedule, resume retention and breach response. Consent withdrawal anonymization and removal of referral/mentoring notes are implemented.
 - Administrator-issued activation/password-reset tokens are implemented, but verified private delivery and self-service recovery are not. Consider MFA for administrators.
-- Per-IP limits now cover registration, login, activation, bootstrap, resume uploads and admin mutations; authenticated mutations require same-origin Origin. Add device-aware controls and complete staging CSRF verification.
+- Per-IP limits cover registration, login, activation, bootstrap, resume uploads, job/candidate/application/mentoring submissions and admin mutations; JSON/multipart request sizes are capped and authenticated mutations require same-origin Origin. Add device-aware controls and complete staging CSRF verification.
 - Add operational alerts, D1/R2 backup/restore drills and incident owner rota.
 - Configure production hostname, secrets and resource IDs only after staging approval.
 - Obtain product owner, security owner and UAT sign-off.
