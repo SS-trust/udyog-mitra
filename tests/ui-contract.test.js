@@ -36,4 +36,4 @@ test('candidate directory supports owner profile editing and cancel',()=>{assert
 test('search quota exhaustion is styled as an error, not success',()=>{assert.match(js,/limit\|reached/);assert.match(js,/showError\(e\.message\)/)});
 
 test('career support uses loading states and structured impact cards',()=>{assert.match(js,/function withButton/);assert.match(js,/function renderImpact/);assert.match(js,/impact-grid/);assert.match(js,/Loading opt-in profiles/);assert.match(js,/Finding candidates…/)});
-test('career support actions have one handler each',()=>{for(const id of ['findMatches','findCandidates','browseRequirements','browseMentors','viewImpact','viewGuidance'])assert.equal(js.split("$('"+id+"').onclick").length-1,1,id)});
+test('career support actions have one handler each',()=>{for(const id of ['findMatches','findCandidates','browseRequirements','browseMentors','viewImpact','viewGuidance'])assert.equal(js.split("$('#"+id+"').onclick").length-1,1,id)});
