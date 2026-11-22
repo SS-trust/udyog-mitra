@@ -43,12 +43,11 @@ Use synthetic members, jobs and candidate profiles only. Do not import real cand
 ## Staging deployment sequence
 1. Confirm latest GitHub Actions checks are green.
 2. Back up staging D1 and record current migration list.
-3. Apply migrations: `npx wrangler d1 migrations apply udyog-mitra-db --remote`.
-4. Deploy Worker: `npx wrangler deploy`.
-5. Configure the staging hostname and TLS.
-6. Run the full UAT checklist in [uat-and-negative-tests.md](uat-and-negative-tests.md).
-7. Test resume upload/download with synthetic documents, authorization boundaries and session revocation.
-8. Review logs, errors, resource consumption and Cloudflare limits for at least one complete UAT cycle.
+3. Run GitHub Actions → **Deploy UdyogMitra staging**. The workflow applies all pending D1 migrations and deploys Worker `udyog-mitra-staging`.
+4. Confirm migration `0008_rate_limits_and_consent.sql` is applied before testing consent and rate-limit changes.
+5. Open `https://udyog-mitra-staging.samskruthisamvardhanatrust.workers.dev/` and run the full UAT checklist in [uat-and-negative-tests.md](uat-and-negative-tests.md).
+6. Test resume upload/download with synthetic documents, authorization boundaries and session revocation.
+7. Review logs, errors, resource consumption and Cloudflare limits for at least one complete UAT cycle.
 
 ## First administrator
 Follow the controlled first-admin procedure in README. Set `FIRST_ADMIN_SETUP_KEY` as a Worker secret, call the setup endpoint only over HTTPS from a trusted environment, then immediately delete the secret. Verify the first admin can sign in and create an approver. Never store the setup key in source control or build logs.
