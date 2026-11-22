@@ -31,4 +31,4 @@ test('password recovery is clearly described as administrator-issued token flow'
 
 test('job owner editing uses PATCH and supports cancelling edit mode',()=>{assert.match(js,/Edit opening/);assert.match(js,/dataset\.editId/);assert.match(js,/api\(editId\?path/);assert.match(html,/id="cancelJobEdit"/)});
 
-test('candidate directory supports owner profile editing and cancel',()=>{assert.match(html,/id="candidateList"/);assert.match(html,/id="cancelCandidateEdit"/);assert.match(js,/Edit profile/);assert.match(js,/candidate\.consent_withdrawn_at/)});
+test('candidate directory supports owner profile editing and cancel',()=>{assert.match(html,/id="candidateList"/);assert.match(html,/id="cancelCandidateEdit"/);assert.match(js,/Edit profile/);assert.match(js,/c\.consent_withdrawn_at/)});
