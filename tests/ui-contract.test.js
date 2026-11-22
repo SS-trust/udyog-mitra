@@ -33,4 +33,4 @@ test('job owner editing uses PATCH and supports cancelling edit mode',()=>{asser
 
 test('candidate directory supports owner profile editing and cancel',()=>{assert.match(html,/id="candidateList"/);assert.match(html,/id="cancelCandidateEdit"/);assert.match(js,/Edit profile/);assert.match(js,/c\.consent_withdrawn_at/)});
 
-test('search quota exhaustion is styled as an error, not success',()=>{assert.match(js,/limit\|reached/);assert.match(js,/Daily limit of 50 searches reached/)});
+test('search quota exhaustion is styled as an error, not success',()=>{assert.match(js,/limit\|reached/);assert.match(js,/showError\(e\.message\)/)});
