@@ -10,3 +10,6 @@ test('all workspace tabs target an existing panel',()=>{const panels=new Set([..
 test('forms have unique IDs and are accessible by labels',()=>{const forms=[...html.matchAll(/<form\b[^>]*\bid=["']([^"']+)["']/g)].map(x=>x[1]);assert.ok(forms.length>=8);assert.equal(new Set(forms).size,forms.length);assert.ok(!/<input(?![^>]*\b(?:aria-label|id|name)=)[^>]*>/i.test(html))});
 test('sensitive member workspace panels start hidden until authenticated',()=>{for(const id of ['dashboard','employmentSupport']){const tag=html.match(new RegExp('<section[^>]*id="'+id+'"[^>]*>'));assert.ok(tag?.[0].includes('hidden'),id)}});
 test('external links open safely in a new tab',()=>{for(const m of html.matchAll(/<a\b[^>]*target=["']_blank["'][^>]*>/g))assert.match(m[0],/rel=["'][^"']*noopener[^"']*["']/)});
+
+test('application tracking exposes only workflow-aware status actions',()=>{assert.match(js,/const applicationNext=\{/);assert.match(js,/Application status: /);assert.match(js,/This application is closed/);assert.match(js,/button\.disabled=!select\.value/)});
+test('membership rejection is confirmed before the action is sent',()=>{assert.match(js,/status==='rejected'&&!confirm\(/);assert.match(js,/Approving…/);assert.match(js,/Rejecting…/)});
