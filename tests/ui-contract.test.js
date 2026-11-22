@@ -34,3 +34,6 @@ test('job owner editing uses PATCH and supports cancelling edit mode',()=>{asser
 test('candidate directory supports owner profile editing and cancel',()=>{assert.match(html,/id="candidateList"/);assert.match(html,/id="cancelCandidateEdit"/);assert.match(js,/Edit profile/);assert.match(js,/c\.consent_withdrawn_at/)});
 
 test('search quota exhaustion is styled as an error, not success',()=>{assert.match(js,/limit\|reached/);assert.match(js,/showError\(e\.message\)/)});
+
+test('career support uses loading states and structured impact cards',()=>{assert.match(js,/function withButton/);assert.match(js,/function renderImpact/);assert.match(js,/impact-grid/);assert.match(js,/Loading opt-in profiles/);assert.match(js,/Finding candidates…/)});
+test('career support actions have one handler each',()=>{for(const id of ['findMatches','findCandidates','browseRequirements','browseMentors','viewImpact','viewGuidance'])assert.equal(js.split("$('"+id+"').onclick").length-1,1,id)});
