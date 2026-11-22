@@ -10,12 +10,12 @@ if(withdrawal&&req.method==='POST'){
  if(candidate.created_by!==user.id)return fail('Forbidden',403);
  const resume=await db.prepare('SELECT r2_key FROM candidate_resumes WHERE candidate_id=?').bind(candidateId).first();
  await db.batch([
-  db.prepare('DELETE FROM candidate_resumes WHERE candidate_id=?').bind(candidateId),
+  db.prepare('DELETE FROM candidate_resumes WHERE candidate_id=?').bind(candidateId),\n  db.prepare("UPDATE applications SET note='' WHERE candidate_id=?").bind(candidateId),\n  db.prepare("UPDATE mentorship_requests SET note='',status=CASE WHEN status IN ('open','accepted') THEN 'cancelled' ELSE status END,updated_at=CURRENT_TIMESTAMP WHERE candidate_id=?").bind(candidateId),
   db.prepare("UPDATE candidates SET full_name='Withdrawn candidate',mobile=NULL,email=NULL,qualification='',skills='',experience_years=0,preferred_location='',desired_roles='',visibility='private',job_status='paused',consent_withdrawn_at=CURRENT_TIMESTAMP WHERE id=? AND created_by=?").bind(candidateId,user.id),
-  db.prepare("INSERT INTO admin_audit_log(id,actor_id,action,target_id,details) VALUES(?,?,?,?,?)").bind(crypto.randomUUID(),user.id,'candidate.consent.withdrawn',candidateId,'Profile details anonymized; resume removed; application history retained')
+  db.prepare("INSERT INTO admin_audit_log(id,actor_id,action,target_id,details) VALUES(?,?,?,?,?)").bind(crypto.randomUUID(),user.id,'candidate.consent.withdrawn',candidateId,'Profile anonymized; resume access revoked; notes cleared; application status retained')
  ]);
  if(resume?.r2_key&&env.RESUMES){try{await env.RESUMES.delete(resume.r2_key)}catch(error){console.error('Candidate resume cleanup failed after consent withdrawal',{candidateId,message:String(error?.message||error).slice(0,200)})}}
- return response({ok:true,message:'Candidate details anonymized, resume access revoked and network sharing stopped. Application history is retained without identifying details.'});
+ return response({ok:true,message:'Candidate profile anonymized, resume access revoked, referral and mentoring notes cleared, and open guidance requests cancelled. Application status history is retained for audit.'});
 }
 const m=url.pathname.match(/^\/api\/candidates\/([^/]+)\/resume$/);if(!m)return null;const candidateId=m[1];if(!env.RESUMES)return fail('Private resume storage not configured',503);
 const candidate=await db.prepare('SELECT id,created_by FROM candidates WHERE id=?').bind(candidateId).first();if(!candidate)return fail('Candidate not found',404);
