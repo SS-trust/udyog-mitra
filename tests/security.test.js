@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allowed,sha256,currentUser,validMobile,secureResponse} from '../src/security.js';
+import {allowed,sha256,currentUser,validMobile,secureResponse,rateLimit} from '../src/security.js';
 function dbReturning(value){return {prepare(sql){return {bind(...args){return {async first(){return value},args,sql}}}}}}
 test('authorization denies unknown action and defaults to deny',async()=>{assert.equal(await allowed(dbReturning({ok:1}),'u','jobs','owner'),false);assert.equal(await allowed(dbReturning(null),'u','jobs','view'),false)});
 test('authorization allows only a matching active grant',async()=>{assert.equal(await allowed(dbReturning({ok:1}),'u','jobs','view'),true)});
@@ -9,3 +9,6 @@ test('session resolver hashes token and accepts only database-approved principal
 test('mobile validation rejects malformed numbers',()=>{assert.equal(validMobile('9876543210'),true);assert.equal(validMobile('+91 9876543210'),true);assert.equal(validMobile('123'),false);assert.equal(validMobile('987654321x'),false)});
 
 test('secure responses include browser security headers',()=>{const r=secureResponse(new Response('ok'));assert.equal(r.headers.get('X-Content-Type-Options'),'nosniff');assert.equal(r.headers.get('X-Frame-Options'),'DENY');assert.match(r.headers.get('Content-Security-Policy'),/frame-ancestors 'none'/);assert.equal(r.headers.get('Referrer-Policy'),'strict-origin-when-cross-origin')});
+
+test('request rate limits hash client keys and enforce the configured ceiling',async()=>{let bound;const db={prepare(sql){assert.match(sql,/ON CONFLICT/);assert.match(sql,/RETURNING request_count/);return{bind(...args){bound=args;return{async first(){return{request_count:2}}}}}}};const result=await rateLimit(db,'login','203.0.113.10',2,900);assert.equal(result.allowed,true);assert.equal(result.remaining,0);assert.equal(bound[0],'login');assert.equal(bound[1].length,64);assert.notEqual(bound[1],'203.0.113.10');});
+test('request rate limits deny requests above the ceiling',async()=>{const db={prepare(){return{bind(){return{async first(){return{request_count:4}}}}}}};const result=await rateLimit(db,'registration','203.0.113.11',3,3600);assert.equal(result.allowed,false);assert.equal(result.remaining,0);assert.ok(result.resetAt>Math.floor(Date.now()/1000));});
