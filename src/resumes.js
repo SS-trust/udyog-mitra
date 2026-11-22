@@ -10,7 +10,9 @@ if(withdrawal&&req.method==='POST'){
  if(candidate.created_by!==user.id)return fail('Forbidden',403);
  const resume=await db.prepare('SELECT r2_key FROM candidate_resumes WHERE candidate_id=?').bind(candidateId).first();
  await db.batch([
-  db.prepare('DELETE FROM candidate_resumes WHERE candidate_id=?').bind(candidateId),\n  db.prepare("UPDATE applications SET note='' WHERE candidate_id=?").bind(candidateId),\n  db.prepare("UPDATE mentorship_requests SET note='',status=CASE WHEN status IN ('open','accepted') THEN 'cancelled' ELSE status END,updated_at=CURRENT_TIMESTAMP WHERE candidate_id=?").bind(candidateId),
+  db.prepare('DELETE FROM candidate_resumes WHERE candidate_id=?').bind(candidateId),
+  db.prepare("UPDATE applications SET note='' WHERE candidate_id=?").bind(candidateId),
+  db.prepare("UPDATE mentorship_requests SET note='',status=CASE WHEN status IN ('open','accepted') THEN 'cancelled' ELSE status END,updated_at=CURRENT_TIMESTAMP WHERE candidate_id=?").bind(candidateId),
   db.prepare("UPDATE candidates SET full_name='Withdrawn candidate',mobile=NULL,email=NULL,qualification='',skills='',experience_years=0,preferred_location='',desired_roles='',visibility='private',job_status='paused',consent_withdrawn_at=CURRENT_TIMESTAMP WHERE id=? AND created_by=?").bind(candidateId,user.id),
   db.prepare("INSERT INTO admin_audit_log(id,actor_id,action,target_id,details) VALUES(?,?,?,?,?)").bind(crypto.randomUUID(),user.id,'candidate.consent.withdrawn',candidateId,'Profile anonymized; resume access revoked; notes cleared; application status retained')
  ]);
