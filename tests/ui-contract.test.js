@@ -28,3 +28,5 @@ test('member workspace exposes failed panel loads and candidate empty states',()
 test('bulk preview and commit use structured feedback rather than raw JSON',()=>{assert.match(js,/renderBulkPreview/);assert.match(js,/CSV validation passed/);assert.match(js,/member accounts created/);assert.doesNotMatch(js,/bulkResult'\)\.textContent=JSON\.stringify/)});
 test('admin directory exposes member IDs for account operations',()=>{assert.match(js,/Member ID/);assert.match(js,/u\.id,u\.full_name/)});
 test('password recovery is clearly described as administrator-issued token flow',()=>{assert.match(html,/password-reset token/);assert.match(html,/activation or password-reset token/)});
+
+test('job owner editing uses PATCH and supports cancelling edit mode',()=>{assert.match(js,/Edit opening/);assert.match(js,/dataset\.editId/);assert.match(js,/api\(editId\?path/);assert.match(html,/id="cancelJobEdit"/)});
