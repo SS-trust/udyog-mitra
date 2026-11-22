@@ -132,3 +132,5 @@ footer strong{color:#45685a;font-size:11px}
 button:disabled{opacity:.55;cursor:not-allowed}
 [aria-live=polite]{min-height:1.2em}
 @media(max-width:640px){.member-table{font-size:10px}.member-table th,.member-table td{padding:8px 5px}.search-actions button,.candidate-actions button{flex:1}}
+
+.form-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.form-actions button{width:auto}
