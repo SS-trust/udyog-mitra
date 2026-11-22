@@ -14,10 +14,10 @@
 - JavaScript syntax and matching checks plus clean database migration CI
 
 ## Must finish before opening to actual users
-- Provision NEW, independent Cloudflare D1 ID and private R2 bucket, and set Worker bindings. Current wrangler.jsonc deliberately contains a database ID placeholder. No live UdyogMitra deployment has been performed.
-- Apply D1 migrations; benchmark PBKDF2 on Cloudflare Free Workers CPU limits, and verify free R2 billing/storage hard limits.
+- Deploy the latest main commit to the existing staging Worker; migration `0008_rate_limits_and_consent.sql` must be applied by the deployment workflow.
+- Benchmark PBKDF2 on Cloudflare Workers CPU limits and verify R2 billing/storage limits. Staging Worker and separate D1/R2 resources are provisioned; production hostname mapping remains a later step.
 - Full authenticated integration and security tests: login, roles/approvals, session expiry, concurrency, search quota, CSRF handling, admin bootstrap and token redemption.
-- Add server-side enforcement of R2 object quota, anti-malware scanning before anyone downloads an uploaded resume, candidate consent deletion/withdrawal policy and retention schedule.
+- Add a hard R2 object quota and malware scanning/quarantine before resume downloads. Candidate consent version, timestamp and withdrawal anonymization are implemented; approve retention and deletion policy.
 - Activation/reset tokens are administrator-issued, time-limited and hashed at rest; secure private delivery remains an operational manual step until a verified delivery provider is approved.
 - Add monitoring and complete browser/mobile layout QA (Kannada translations are not implemented end to end).
 - Member-reporting and notification systems are basic; employment outcome counts are member-reported.
