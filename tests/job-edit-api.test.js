@@ -13,7 +13,7 @@ function fakeDb(owner='member-1') {
      return {
       sql,args,
       async first(){
-       if(sql.includes('role_permissions'))return{ok:1};
+       if(sql.includes('role_permissions')&&sql.includes('can_modify=1'))return{ok:1};if(sql.includes('role_permissions')&&sql.includes('can_delete=1'))return null;
        if(sql.startsWith('SELECT poster_id FROM jobs'))return{poster_id:owner};
        return null;
       },
