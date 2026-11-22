@@ -24,7 +24,7 @@ const rateRules=[
  ['/api/setup/first-admin','POST','first-admin-setup',5,3600]
 ];
 let rule=rateRules.find(x=>x[0]===url.pathname&&x[1]===req.method);
-if(!rule&&req.method==='POST'&&/^\/api\/candidates\/[^/]+\/resume$/.test(url.pathname))rule=['resume-upload','POST','resume-upload',8,3600];
+if(!rule&&req.method==='POST'&&/^\/api\/candidates\/[^/]+\/resume$/.test(url.pathname))rule=['resume-upload','POST','resume-upload',8,3600];\nif(!rule&&!['GET','HEAD','OPTIONS'].includes(req.method)&&url.pathname.startsWith('/api/admin/'))rule=['admin-mutations',req.method,'admin-mutations',60,60];
 if(rule){const limit=await rateLimit(db,rule[2],ip,rule[3],rule[4]);if(!limit.allowed)return response({error:'Too many requests. Please wait before trying again.',retry_after_seconds:Math.max(1,limit.resetAt-Math.floor(Date.now()/1000))},429)}
 
 try{
