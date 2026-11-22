@@ -11,3 +11,11 @@ export function response(data,status=200){return secureResponse(Response.json(da
 export async function currentUser(req,db){const match=(req.headers.get('cookie')||'').match(/(?:^|;\s*)um_session=([^;]+)/);if(!match)return null;const hash=await sha256(match[1]);return await db.prepare("SELECT u.id,u.full_name,u.mobile,u.email,u.status FROM web_user_sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=? AND s.expires_at>strftime('%Y-%m-%dT%H:%M:%fZ','now') AND u.status='approved'").bind(hash).first()}
 export async function allowed(db,userId,feature,action='view'){const column={view:'can_view',create:'can_create',modify:'can_modify',delete:'can_delete'}[action];if(!column)return false;return !!(await db.prepare(`SELECT 1 FROM user_app_roles ur JOIN app_roles r ON r.id=ur.role_id AND r.active=1 JOIN role_permissions rp ON rp.role_id=r.id WHERE ur.user_id=? AND ur.active=1 AND rp.feature_code=? AND rp.${column}=1 LIMIT 1`).bind(userId,feature).first())}
 export function validMobile(x){const digits=String(x??'').replace(/\D/g,'');const local=digits.length===12&&digits.startsWith('91')?digits.slice(2):digits;return /^\d{10}$/.test(local)} 
+
+/** Atomic per-IP request throttle. The key is hashed before persistence. */
+export async function rateLimit(db,scope,clientKey,limit,windowSeconds){
+ const keyHash=await sha256(String(clientKey||'unknown'));
+ const now=Math.floor(Date.now()/1000),windowStart=Math.floor(now/windowSeconds)*windowSeconds;
+ const row=await db.prepare("INSERT INTO request_rate_limits(scope,key_hash,window_start,request_count) VALUES(?,?,?,1) ON CONFLICT(scope,key_hash) DO UPDATE SET window_start=excluded.window_start,request_count=CASE WHEN request_rate_limits.window_start=excluded.window_start THEN request_rate_limits.request_count+1 ELSE 1 END,updated_at=CURRENT_TIMESTAMP RETURNING request_count").bind(scope,keyHash,windowStart).first();
+ return {allowed:Number(row?.request_count||0)<=limit,remaining:Math.max(0,limit-Number(row?.request_count||0)),resetAt:windowStart+windowSeconds};
+}
