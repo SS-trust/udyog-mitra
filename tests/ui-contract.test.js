@@ -21,3 +21,6 @@ test('member directory is rendered as a searchable table, not raw JSON',()=>{ass
 
 test('member directory supports server-side search and pagination',()=>{assert.match(js,/api\('\/api\/admin\/users\?'\+params\)/);assert.match(js,/Showing .* of .* members/);assert.match(js,/previous\.disabled=page<=1/)});
 test('approval-only users do not see administrator-only cards',()=>{assert.match(js,/card\.hidden=card\.classList\.contains\('admin-approvals'\)/)});
+
+test('bulk onboarding shows a validated table and explicit import progress',()=>{assert.match(js,/function renderBulkPreview/);assert.match(js,/CSV row/);assert.match(js,/Validating…/);assert.match(js,/Importing…/)});
+test('member workspace exposes failed panel loads and candidate empty states',()=>{assert.match(js,/Job openings could not be loaded/);assert.match(js,/No candidates yet/)});
