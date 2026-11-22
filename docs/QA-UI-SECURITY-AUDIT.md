@@ -10,7 +10,8 @@ Repository: SS-trust/udyog-mitra
 - Membership rejection now requires confirmation and shows progress feedback.
 - Added Content-Security-Policy, frame denial, MIME sniffing protection, referrer policy, permissions policy and same-origin resource policy to API responses, session responses, static assets and resume downloads.
 - Added atomic hashed-IP throttling for registration, login, activation, first-admin setup and resume uploads.
-- Authenticated state-changing requests now require an exact same-origin Origin header; cross-site Fetch Metadata requests are rejected.
+- Authenticated state-changing requests now require an exact same-origin Origin header; cross-site Fetch Metadata requests are rejected. Admin mutations also have a per-IP rate limit.
+- Audit events now cover candidate privacy changes and mentoring request create/accept/complete/cancel actions.
 - Candidate consent now records a version and timestamp. A withdrawal action anonymizes profile data, deletes the resume object and preserves application history without identifying profile details.
 - Replaced raw JSON member listing with server-side searchable, paginated administration table, including member IDs for activation/role operations.
 - Bulk member preview now renders row-level validation feedback and checks duplicate/existing mobile numbers and email addresses before commit.
@@ -75,7 +76,7 @@ Membership approvals are permission-gated on the server. Bulk import has preview
 
 ## Follow-up engineering changes — 22 November 2026
 
-The follow-up changes above are committed on main. The latest automated workflow passed JavaScript syntax, package/Wrangler JSON validation, unit/negative/UI contract tests, fresh SQLite migration integrity and secret scanning. Staging deployment and real-browser validation are still outstanding.
+The follow-up changes above are committed on main. The latest automated workflow passed JavaScript syntax, package/Wrangler JSON validation, unit/negative/UI contract tests, fresh SQLite migration integrity and secret scanning. Added API-level tests for application status actor permissions and candidate consent withdrawal. Staging deployment and real-browser validation are still outstanding.
 
 ## Verification boundary
 GitHub Actions checks validate JavaScript syntax, unit/negative tests, UI contracts and fresh-schema integrity. This source review did not execute a real browser session against the Cloudflare staging Worker or perform an external penetration test. Do not mark the platform production-ready until manual UAT and the remaining security blockers are closed.
