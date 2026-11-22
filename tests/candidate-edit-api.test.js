@@ -2,9 +2,28 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {jobsApi} from '../src/jobs.js';
 
-function fakeDb(owner='member-1'){
+function fakeDb(owner='member-1') {
  const calls=[];
- return {calls,prepare(sql){return{sql,bind(...args){return{sql,args,async first(){if(sql.includes('role_permissions'))return{ok:1};if(sql.startsWith('SELECT id,created_by FROM candidates'))return{id:'candidate-1',created_by:owner};return null},async run(){calls.push({sql,args});return{meta:{changes:1}}}}}}};
+ const db={
+  calls,
+  prepare(sql){
+   return {
+    sql,
+    bind(...args){
+     return {
+      sql,args,
+      async first(){
+       if(sql.includes('role_permissions'))return{ok:1};
+       if(sql.startsWith('SELECT id,created_by FROM candidates'))return{id:'candidate-1',created_by:owner};
+       return null;
+      },
+      async run(){calls.push({sql,args});return{meta:{changes:1}}}
+     };
+    }
+   };
+  }
+ };
+ return db;
 }
 const profile={full_name:'Candidate Name',mobile:'9876543210',email:'candidate@example.com',qualification:'Graduate',skills:'Excel, SQL',experience_years:2,preferred_location:'Bengaluru'};
 async function patch(db,user,payload=profile){const url=new URL('https://example.test/api/candidates/candidate-1');return jobsApi(new Request(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}),db,user,url)}
