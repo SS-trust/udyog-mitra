@@ -13,3 +13,8 @@ test('external links open safely in a new tab',()=>{for(const m of html.matchAll
 
 test('application tracking exposes only workflow-aware status actions',()=>{assert.match(js,/const applicationNext=\{/);assert.match(js,/Application status: /);assert.match(js,/This application is closed/);assert.match(js,/button\.disabled=!select\.value/)});
 test('membership rejection is confirmed before the action is sent',()=>{assert.match(js,/status==='rejected'&&!confirm\(/);assert.match(js,/Approving…/);assert.match(js,/Rejecting…/)});
+
+test('application stage updates use PATCH and the frontend supports that method',()=>{assert.match(js,/method:data\?\(method\|\|'POST'\):'GET'/);assert.match(js,/,'PATCH'\)/)});
+test('candidate privacy actions and explicit consent copy are present',()=>{assert.match(html,/candidate has authorized this profile/);assert.match(html,/withdrawCandidateConsent/);assert.match(js,/withdraw-consent/)});
+test('job search provides loading feedback and a clear-filters action',()=>{assert.match(html,/id="clearJobFilters"/);assert.match(js,/Searching community openings/);assert.match(js,/clearJobFilters/)});
+test('member directory is rendered as a searchable table, not raw JSON',()=>{assert.match(js,/member-table/);assert.match(js,/Search member directory/);assert.doesNotMatch(js,/JSON\.stringify\(await api\(path\),null,2\)/)});
