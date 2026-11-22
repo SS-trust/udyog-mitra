@@ -116,3 +116,19 @@ footer{max-width:1280px;margin:0 auto;padding:24px 34px;color:#87958e;font-size:
 footer strong{color:#45685a;font-size:11px}
 @media(max-width:850px){.app-main{padding:22px 22px 55px}.hero{padding:38px}.hero-art{margin-right:0}.auth-layout{grid-template-columns:1fr 1fr}.admin-grid{gap:12px}.admin-card{padding:16px}}
 @media(max-width:640px){.topbar{height:64px;padding:0 16px}.app-main{padding:16px 14px 42px}.hero{min-height:unset;padding:30px 25px;border-radius:16px}.hero-art{display:none}.hero h1{font-size:37px}.hero p{font-size:12px}.hero-points{font-size:9px;gap:9px 14px}.auth-layout{grid-template-columns:1fr;gap:13px;margin-top:16px}.auth-card{padding:23px}.workspace{margin-top:14px}.welcome-row{padding:18px}.welcome-row h1{font-size:22px}.workspace-panel{padding:17px}.admin-workspace{padding:18px}.admin-heading{padding-bottom:17px}.admin-heading h2{font-size:23px}.admin-shield{width:40px;height:40px}.admin-grid{grid-template-columns:1fr}.admin-card{padding:16px}.workspace-nav{margin-right:-14px;padding-right:14px}footer{padding:20px 14px}}
+
+
+/* Workflow completion: searchable directory, consent and action states */
+.search-actions,.candidate-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.search-actions button,.candidate-actions button{width:auto}
+.consent-copy{padding:12px 14px;border-left:3px solid #6d9d7f;background:#f3f8f4;border-radius:0 8px 8px 0;color:#526a5d;font-size:11px;line-height:1.65}
+.member-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.member-table th{text-align:left;color:#587064;background:#f4f8f5;font-weight:700}
+.member-table th,.member-table td{padding:11px 10px;border-bottom:1px solid #e6ede8;vertical-align:top}
+.member-table td{color:#354d42;overflow-wrap:anywhere}
+#data>input[type=search]{width:100%;margin:8px 0}
+#data>p{font-size:11px;color:#6e8076;margin:10px 0}
+#data>code{display:block;padding:14px;background:#f3f7f4;border:1px solid #dce8df;border-radius:8px;overflow-wrap:anywhere;font-size:12px}
+button:disabled{opacity:.55;cursor:not-allowed}
+[aria-live=polite]{min-height:1.2em}
+@media(max-width:640px){.member-table{font-size:10px}.member-table th,.member-table td{padding:8px 5px}.search-actions button,.candidate-actions button{flex:1}}
