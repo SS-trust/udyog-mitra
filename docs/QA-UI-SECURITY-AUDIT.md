@@ -27,10 +27,10 @@ The public page presents UdyogMitra as a closed community network. Sign-in and r
 Authenticated panels remain hidden until the session endpoint confirms the user. Server-side RBAC is authoritative; hiding controls in the browser is not a security boundary. Initial data loading uses Promise.allSettled, so an individual data panel can fail without breaking login, but the current UX can conceal that failure. Add per-panel loading, error and empty states.
 
 ### Job search and posting
-Search is limited to internal UdyogMitra postings. A server-side limit of 50 keyword searches per user per UTC day is enforced. Job fields are validated server-side. Remaining UX work: explicit loading state, filter reset, clear quota-exhausted message, and ensure incidental data refreshes do not count as deliberate searches.
+Search is limited to internal UdyogMitra postings. A server-side limit of 50 keyword searches per user per UTC day is enforced. Job fields are validated server-side. Search loading feedback and filter reset are implemented. Remaining UX work: make the quota-exhausted state more prominent and ensure incidental data refreshes do not count as deliberate searches.
 
 ### Candidates, referrals and applications
-Candidate creation requires a consent checkbox. Private candidate operations are scoped to the creator. Application transitions are validated server-side; this review aligned the UI controls with the state machine. Candidate matching endpoints do not return candidate names/contact details. Record consent wording/version and timestamp, and define withdrawal/deletion and retention processes.
+Candidate creation requires a consent checkbox. Candidate profile editing and privacy operations are scoped to the creator. Application transitions are validated server-side and the frontend uses the correct PATCH method. Candidate matching endpoints do not return candidate names/contact details. Consent version/time are recorded; withdrawal anonymizes the profile and clears referral/mentoring notes. Define the retention and formal deletion policy.
 
 ### Resume upload and access
 Resume storage uses a private R2 bucket. Uploads are limited to 2 MB and PDF/DOCX MIME types with basic file-signature checks. Retrieval is authenticated and restricted to the creator or a job poster with an application for that candidate. PRODUCTION BLOCKER: MIME/signature checks are not malware scanning or document sanitization. Add quarantine and malware scanning before accepting real member resumes.
@@ -39,7 +39,7 @@ Resume storage uses a private R2 bucket. Uploads are limited to 2 MB and PDF/DOC
 Candidate discovery exposes opted-in anonymized attributes rather than names/contact details. Match scores are described as indicative. Mentorship actions are permission-checked and constrained by ownership/status. Add per-panel loading, empty and error states.
 
 ### Administration
-Membership approvals are permission-gated on the server. Bulk import has preview/commit and a 100-row limit. Activation tokens are random, hashed at rest and time-limited. Suspension revokes sessions and protects privileged accounts from the ordinary suspension route. The member directory currently renders raw JSON rather than a searchable/paginated table; replace this before broad admin onboarding. Add pagination and a deliberate bulk-action summary.
+Membership approvals are permission-gated on the server. Bulk import has preview/commit and a 100-row limit. Activation tokens are random, hashed at rest and time-limited. Suspension revokes sessions and protects privileged accounts from the ordinary suspension route. The member directory now supports server-side search and pagination with member IDs. Bulk preview displays row-level validation and checks duplicate/existing mobile and email values.
 
 ## Security observations and remaining risks
 
@@ -50,12 +50,12 @@ Membership approvals are permission-gated on the server. Bulk import has preview
 - Retained no-store policy for API JSON and resume downloads.
 
 ### Required before production
-1. Rate limiting: login throttling and job-search quota exist. Add edge/IP-aware rate limiting for registration, activation, resume uploads and sensitive admin endpoints. The current login lock is keyed by identifier; test/tune to reduce account-lockout denial-of-service risk.
+1. Rate limiting: per-IP limits cover registration, login, activation, bootstrap, resume uploads and admin mutations. Add device-aware controls and tune thresholds. The identifier-based login lock can still be abused for account lockout; monitor and tune it.
 2. Resume malware scanning: quarantine and scan files before employers can retrieve them.
 3. CSRF testing: test same-site, cross-site, missing-Origin and non-browser requests. SameSite cookies are defense-in-depth, not the only CSRF control.
-4. Account recovery/delivery: implement verified email/mobile delivery, password reset, activation delivery, expiry and revocation handling before self-service recovery.
-5. Privacy operations: document consent, candidate sharing, retention, deletion and access logging. Confirm consent covers data shared with each employer/referrer.
-6. Auditability: add audit events for job updates/closure, candidate consent changes, resume access, application status changes and role changes.
+4. Account recovery/delivery: administrator-issued activation/password-reset tokens are implemented, hashed at rest and time-limited. Verified delivery and self-service recovery remain unavailable until an approved provider is configured.
+5. Privacy operations: consent version/time and withdrawal anonymization are implemented. Approve and publish retention, deletion and data-sharing policies; confirm consent covers each employer/referrer.
+6. Auditability: audit events now cover job create/update/closure, candidate create/privacy changes, resume access, application status changes, role changes and mentoring lifecycle actions.
 7. Operations: verify D1 backup/restore, R2 lifecycle/backup, error alerting and incident response.
 8. Verify CSP in a real browser and confirm headers on HTML, JS, CSS, API and resume responses.
 
