@@ -10,7 +10,7 @@ async function audit(db,actor,action,target,detail=''){await db.prepare('INSERT 
 const clean=x=>String(x??'').trim();
 export default {async fetch(req,env){const url=new URL(req.url),db=env.DB;if(!url.pathname.startsWith('/api/'))return secureResponse(await env.ASSETS.fetch(req));
 if(!['GET','HEAD','OPTIONS'].includes(req.method)){
- const cookieSession=/(?:^|;\\s*)um_session=/.test(req.headers.get('cookie')||'');
+ const cookieSession=/(?:^|;\s*)um_session=/.test(req.headers.get('cookie')||'');
  const origin=req.headers.get('Origin');
  if(cookieSession&&origin!==url.origin)return fail('Request origin could not be verified. Refresh the page and try again.',403);
  if(origin&&origin!==url.origin)return fail('Cross-origin mutation blocked',403);
